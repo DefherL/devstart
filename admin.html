@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevStart — Admin</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+</head>
+<body class="admin-page">
+
+<!-- ════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div>
+    <div class="sidebar-logo">
+      Dev<span>Start</span>
+      <span class="sidebar-badge">ADMIN</span>
+    </div>
+    <div class="sidebar-username" id="sidebar-username">—</div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-overview" onclick="showView('overview')">
+        <span class="nav-icon">📊</span> <span>Visão Geral</span>
+      </button>
+      <button class="nav-item" id="nav-students" onclick="showView('students')">
+        <span class="nav-icon">👥</span> <span>Alunos</span>
+      </button>
+      <button class="nav-item" id="nav-stuck" onclick="showView('stuck')">
+        <span class="nav-icon">⚠️</span> <span>Travados</span>
+      </button>
+      <button class="nav-item" id="nav-quizzes" onclick="showView('quizzes')">
+        <span class="nav-icon">🎯</span> <span>Quizzes</span>
+      </button>
+      <button class="nav-item" id="nav-invites" onclick="showView('invites')">
+        <span class="nav-icon">🔑</span> <span>Convites</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div style="padding:.5rem .75rem;">
+      <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    </div>
+    <button class="sidebar-voltar" onclick="window.location.href='app.html'">
+      <span class="nav-icon">📚</span> <span>Voltar à plataforma</span>
+    </button>
+    <button class="sidebar-logout" onclick="doLogout()">
+      <span class="nav-icon">🚪</span> <span>Sair</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ════════════════════════════════════════════
+     CONTEÚDO PRINCIPAL
+════════════════════════════════════════════ -->
+<main class="admin-main">
+
+  <!-- ── VIEW: Visão Geral ── -->
+  <div class="admin-view active" id="view-overview">
+    <div class="admin-page-header">
+      <div class="admin-page-title">Visão Geral</div>
+      <div class="admin-page-sub">Panorama completo de todos os alunos da plataforma</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card" style="--stat-color:var(--accent)">
+        <div class="stat-card-icon">👥</div>
+        <div class="stat-card-num" id="s-total">—</div>
+        <div class="stat-card-label">Total de alunos</div>
+      </div>
+      <div class="stat-card" style="--stat-color:var(--accent)">
+        <div class="stat-card-icon">✅</div>
+        <div class="stat-card-num" id="s-active">—</div>
+        <div class="stat-card-label">Ativos</div>
+      </div>
+      <div class="stat-card" style="--stat-color:var(--warn)">
+        <div class="stat-card-icon">⚠️</div>
+        <div class="stat-card-num" id="s-stuck">—</div>
+        <div class="stat-card-label">Travados</div>
+      </div>
+      <div class="stat-card" style="--stat-color:var(--error)">
+        <div class="stat-card-icon">💤</div>
+        <div class="stat-card-num" id="s-abandoned">—</div>
+        <div class="stat-card-label">Abandonaram</div>
+      </div>
+      <div class="stat-card" style="--stat-color:var(--accent3)">
+        <div class="stat-card-icon">📈</div>
+        <div class="stat-card-num" id="s-avgprog">—</div>
+        <div class="stat-card-label">Progresso médio</div>
+      </div>
+      <div class="stat-card" style="--stat-color:var(--accent2)">
+        <div class="stat-card-icon">🎯</div>
+        <div class="stat-card-num" id="s-avgquiz">—</div>
+        <div class="stat-card-label">Média nos quizzes</div>
+      </div>
+    </div>
+
+    <!-- Módulos populares -->
+    <div class="table-wrap" style="margin-bottom:2rem">
+      <div class="table-header">
+        <div class="table-title">📦 Módulos mais acessados</div>
+      </div>
+      <div id="module-popularity" style="padding:1.25rem;display:flex;flex-wrap:wrap;gap:.75rem;"></div>
+    </div>
+
+    <!-- Ranking -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">🏆 Ranking — Top 10 por progresso</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Aluno</th><th>Curso</th>
+            <th>Progresso</th><th>Quiz</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── VIEW: Alunos ── -->
+  <div class="admin-view" id="view-students">
+    <div class="admin-page-header">
+      <div class="admin-page-title">Todos os Alunos</div>
+      <div class="admin-page-sub">Clique em um aluno para ver detalhes e progresso completo</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Lista de alunos</div>
+        <input class="table-search" placeholder="🔍 Buscar aluno..."
+               oninput="filterStudents(this.value)" id="student-search"/>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Aluno</th><th>Curso</th><th>Progresso</th>
+            <th>Último acesso</th><th>Quiz</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="students-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── VIEW: Travados ── -->
+  <div class="admin-view" id="view-stuck">
+    <div class="admin-page-header">
+      <div class="admin-page-title">⚠️ Alunos Travados</div>
+      <div class="admin-page-sub">Alunos que iniciaram mas não avançam — podem precisar de ajuda</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Travados &amp; Inativos</div>
+        <span class="text-sm text-muted" id="stuck-count">—</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Aluno</th><th>Módulo travado</th>
+            <th>Progresso no módulo</th><th>Dias parado</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="stuck-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── VIEW: Quizzes ── -->
+  <div class="admin-view" id="view-quizzes">
+    <div class="admin-page-header">
+      <div class="admin-page-title">🎯 Análise de Quizzes</div>
+      <div class="admin-page-sub">Quizzes com mais erros indicam onde o conteúdo precisa de atenção</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Desempenho por quiz (piores primeiro)</div>
+      </div>
+      <div id="quiz-analysis-list" style="padding:.5rem 0;"></div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: Convites ── -->
+  <div class="admin-view" id="view-invites">
+    <div class="admin-page-header">
+      <div class="admin-page-title">🔑 Códigos de Convite</div>
+      <div class="admin-page-sub">Gere e gerencie os códigos de acesso à plataforma</div>
+    </div>
+
+    <div class="table-wrap" style="padding:1.5rem;margin-bottom:2rem;">
+      <div class="table-title" style="margin-bottom:1rem;">Gerar novos códigos</div>
+      <div class="invite-form">
+        <div class="invite-field">
+          <label class="invite-label">Quantidade</label>
+          <input class="invite-input" type="number" id="invite-qty"
+                 value="5" min="1" max="50" style="width:100px"/>
+        </div>
+        <div class="invite-field">
+          <label class="invite-label">Validade (dias)</label>
+          <input class="invite-input" type="number" id="invite-days"
+                 value="7" min="1" max="90" style="width:130px"/>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="generateInvites()">
+          + Gerar Códigos
+        </button>
+      </div>
+      <div id="new-codes" class="codes-grid"></div>
+    </div>
+
+    <div class="table-wrap" style="padding:1.5rem;">
+      <div class="table-title" style="margin-bottom:1rem;">Todos os códigos</div>
+      <div id="all-codes" class="codes-grid"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ════════════════════════════════════════════
+     MODAL DO ALUNO
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- Scripts -->
+<script type="module" src="assets/js/admin.js"></script>
+<script>
+  function toggleTheme() {
+    const html    = document.documentElement;
+    const isLight = html.getAttribute('data-theme') === 'light';
+    const next    = isLight ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = next === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('devstart-theme', next);
+  }
+  const saved = localStorage.getItem('devstart-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').textContent = saved === 'dark' ? '🌙' : '☀️';
+</script>
+</body>
+</html>

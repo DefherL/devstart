@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DevStart — Do zero ao desenvolvedor com IA. 5 módulos, 56 capítulos, 100% prático. Por Luiz Antonio.">
+  <title>DevStart — Sua primeira linha de código muda tudo</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/landing.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       NAVEGAÇÃO
+  ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">Dev<span>Start</span></a>
+
+    <ul class="nav-links">
+      <li><a href="#modulos">Módulos</a></li>
+      <li><a href="#sobre">Criador</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#preco">Preço</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Já tenho acesso →</a>
+      <a href="#preco" class="nav-cta">Quero começar →</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <span class="hero__badge">🚀 Lançamento 2026</span>
+
+    <h1 class="hero__title">
+      Sua primeira linha<br>
+      <span class="hero__title-accent">de código</span>
+      <span class="hero__title-dim">muda tudo.</span>
+    </h1>
+
+    <p class="hero__sub">
+      Do zero absoluto ao desenvolvedor com IA — o caminho completo,
+      direto e sem enrolação. Criado por quem sentiu na pele a
+      dificuldade de começar.
+    </p>
+
+    <div class="hero__actions">
+      <a href="#preco" class="btn btn--primary">🎯 Começar agora</a>
+      <a href="#modulos" class="btn btn--ghost">Ver o conteúdo</a>
+    </div>
+
+    <div class="hero__stats">
+      <div class="stat">
+        <span class="stat__num">56</span>
+        <span class="stat__label">Capítulos</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">5</span>
+        <span class="stat__label">Módulos</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">100%</span>
+        <span class="stat__label">Prático</span>
+      </div>
+    </div>
+
+    <!-- Terminal decorativo -->
+    <div class="terminal" aria-hidden="true">
+      <div class="terminal__bar">
+        <span class="terminal__dot terminal__dot--red"></span>
+        <span class="terminal__dot terminal__dot--yellow"></span>
+        <span class="terminal__dot terminal__dot--green"></span>
+        <span class="terminal__title">devstart / jornada.js</span>
+      </div>
+      <div class="terminal__body">
+        <p><span class="t-comment">// Seu primeiro dia no DevStart</span></p>
+        <p>&nbsp;</p>
+        <p><span class="t-kw">const</span> <span class="t-fn">voce</span> <span class="t-op">=</span> {</p>
+        <p>&nbsp;&nbsp;conhecimento<span class="t-op">:</span> <span class="t-str">"zero"</span>,</p>
+        <p>&nbsp;&nbsp;meta<span class="t-op">:</span> <span class="t-str">"desenvolvedor full"</span>,</p>
+        <p>&nbsp;&nbsp;tempoEstimado<span class="t-op">:</span> <span class="t-str">"meses, não anos"</span></p>
+        <p>};</p>
+        <p>&nbsp;</p>
+        <p><span class="t-kw">function</span> <span class="t-fn">devStart</span>(aluno) {</p>
+        <p>&nbsp;&nbsp;<span class="t-kw">return</span> aluno.<span class="t-fn">aprender</span>(</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;[<span class="t-str">"HTML"</span>, <span class="t-str">"CSS"</span>, <span class="t-str">"JS"</span>, <span class="t-str">"IA"</span>]</p>
+        <p>&nbsp;&nbsp;).<span class="t-fn">comResultado</span>(); <span class="t-comment">// ✓ primeira vaga</span></p>
+        <p>}</p>
+        <p>&nbsp;</p>
+        <p><span class="t-fn">devStart</span>(voce);<span class="t-cursor"></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PROBLEMA / SOLUÇÃO
+  ══════════════════════════════════════════════ -->
+  <section class="section section--alt" id="problema">
+    <div class="container reveal">
+      <p class="section__label">O problema real</p>
+      <h2 class="section__title">Por que tantos desistem<br>de programar?</h2>
+
+      <div class="problema__grid">
+
+        <ul class="problema__list">
+          <li class="problema__item">
+            <span class="problema__icon" aria-hidden="true">🗺️</span>
+            <div>
+              <h3>Sem direção clara</h3>
+              <p>Milhares de tecnologias, frameworks e linguagens. Sem um mapa, você gira em círculos e não avança.</p>
+            </div>
+          </li>
+          <li class="problema__item">
+            <span class="problema__icon" aria-hidden="true">😔</span>
+            <div>
+              <h3>Conteúdo desconexo</h3>
+              <p>Cursos genéricos que ensinam teoria sem mostrar como tudo se conecta na prática real de um projeto.</p>
+            </div>
+          </li>
+          <li class="problema__item">
+            <span class="problema__icon" aria-hidden="true">⏳</span>
+            <div>
+              <h3>Demora pra ver resultado</h3>
+              <p>Meses estudando sem construir nada real. A motivação cai quando você não vê seu trabalho funcionando.</p>
+            </div>
+          </li>
+          <li class="problema__item">
+            <span class="problema__icon" aria-hidden="true">🤖</span>
+            <div>
+              <h3>IA cada vez mais presente</h3>
+              <p>Quem não aprende a trabalhar com IA hoje vai ficar pra trás. Saber só copiar código do ChatGPT não basta.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="solucao">
+          <h3>DevStart resolve isso.</h3>
+          <p>Um caminho linear e progressivo — você sabe exatamente o que estudar, na ordem certa, com projetos reais a cada módulo. Sem "e agora?". Só código.</p>
+          <ul class="check-list">
+            <li>Sequência validada do zero ao emprego</li>
+            <li>Editor de código ao vivo em cada capítulo</li>
+            <li>Projetos reais que ficam no seu portfólio</li>
+            <li>Integração com IA (Claude) desde o início</li>
+            <li>Quiz e desafios que solidificam o aprendizado</li>
+            <li>Criado por dev que viveu as mesmas dificuldades</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       MÓDULOS
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="modulos">
+    <div class="container reveal">
+      <p class="section__label">O que você vai aprender</p>
+      <h2 class="section__title">5 módulos. 56 capítulos.<br>1 objetivo.</h2>
+      <p class="section__sub">Cada módulo é independente mas complementar — você aprende em sequência e vê tudo se conectando.</p>
+
+      <div class="modulos__grid">
+
+        <article class="modulo">
+          <p class="modulo__num">Módulo 00</p>
+          <span class="modulo__icon" aria-hidden="true">🧠</span>
+          <h3>Lógica de Programação</h3>
+          <p>A base que a maioria pula e depois sente falta. Algoritmos, variáveis, condicionais, loops e funções — pensamento computacional do zero.</p>
+          <ul class="modulo__tags"><li>Algoritmos</li><li>Variáveis</li><li>Funções</li><li>Loops</li></ul>
+          <p class="modulo__caps"><span>12</span> capítulos</p>
+        </article>
+
+        <article class="modulo">
+          <p class="modulo__num">Módulo 01</p>
+          <span class="modulo__icon" aria-hidden="true">🏗️</span>
+          <h3>HTML</h3>
+          <p>Estrutura, semântica, formulários, tabelas e acessibilidade. A linguagem que define o que existe na página — e como buscadores entendem seu conteúdo.</p>
+          <ul class="modulo__tags"><li>Semântica</li><li>Forms</li><li>Tabelas</li><li>SEO</li></ul>
+          <p class="modulo__caps"><span>10</span> capítulos</p>
+        </article>
+
+        <article class="modulo modulo--destaque">
+          <p class="modulo__num">Módulo 02</p>
+          <span class="modulo__icon" aria-hidden="true">🎨</span>
+          <h3>CSS</h3>
+          <p>Flexbox, Grid, animações, responsividade e variáveis CSS. Do layout básico a interfaces de nível profissional.</p>
+          <ul class="modulo__tags"><li>Flexbox</li><li>Grid</li><li>Animações</li><li>Mobile First</li></ul>
+          <p class="modulo__caps"><span>12</span> capítulos</p>
+        </article>
+
+        <article class="modulo modulo--destaque">
+          <p class="modulo__num">Módulo 03</p>
+          <span class="modulo__icon" aria-hidden="true">⚡</span>
+          <h3>JavaScript</h3>
+          <p>A linguagem que dá vida às interfaces. DOM, eventos, Fetch API, classes, módulos e async/await — JavaScript moderno.</p>
+          <ul class="modulo__tags"><li>DOM</li><li>Fetch API</li><li>ES2022+</li><li>Classes</li></ul>
+          <p class="modulo__caps"><span>14</span> capítulos</p>
+        </article>
+
+        <article class="modulo modulo--ia">
+          <p class="modulo__num">Módulo 04</p>
+          <span class="modulo__icon" aria-hidden="true">🤖</span>
+          <h3>IA com Claude</h3>
+          <p>O módulo que vai te separar de 99% dos devs junior. API do Claude, engenharia de prompts, chatbots e RAG.</p>
+          <ul class="modulo__tags"><li>Claude API</li><li>Prompts</li><li>RAG</li><li>Chatbot</li></ul>
+          <p class="modulo__caps"><span>8</span> capítulos</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════
+       COMO FUNCIONA
+  ══════════════════════════════════════════════ -->
+  <section class="section section--alt" id="metodologia">
+    <div class="container reveal">
+      <p class="section__label">Metodologia</p>
+      <h2 class="section__title">Como funciona<br>o aprendizado?</h2>
+
+      <div class="como__grid">
+        <div class="como__step">
+          <span class="como__num" aria-hidden="true">01</span>
+          <span class="como__icon" aria-hidden="true">📖</span>
+          <h3>Teoria clara</h3>
+          <p>Cada conceito explicado com linguagem acessível, exemplos do mundo real e analogias que grudam na memória.</p>
+        </div>
+        <div class="como__step">
+          <span class="como__num" aria-hidden="true">02</span>
+          <span class="como__icon" aria-hidden="true">💻</span>
+          <h3>Editor ao vivo</h3>
+          <p>Escreva e veja o resultado imediatamente — sem instalar nada. Todo capítulo tem código funcional que você modifica em tempo real.</p>
+        </div>
+        <div class="como__step">
+          <span class="como__num" aria-hidden="true">03</span>
+          <span class="como__icon" aria-hidden="true">🎯</span>
+          <h3>Desafio prático</h3>
+          <p>Ao final de cada capítulo, um desafio concreto para você aplicar o conhecimento e construir algo real.</p>
+        </div>
+        <div class="como__step">
+          <span class="como__num" aria-hidden="true">04</span>
+          <span class="como__icon" aria-hidden="true">✅</span>
+          <h3>Quiz de fixação</h3>
+          <p>Perguntas de múltipla escolha com feedback detalhado — entenda por que cada resposta está certa ou errada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SOBRE — LUIZ ANTONIO
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="sobre">
+    <div class="container">
+      <div class="sobre__grid">
+
+        <div class="sobre__visual reveal">
+          <div class="sobre__avatar" aria-label="Luiz Antonio">
+            <img src="assets/images/luiz.png" alt="Luiz Antonio — Criador do DevStart">
+          </div>
+          <div class="sobre__badge">
+            <span class="sobre__badge-dot" aria-hidden="true"></span>
+            <div>
+              <p class="sobre__badge-name">Luiz Antonio</p>
+              <p class="sobre__badge-sub">Criador do DevStart · 20 anos</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sobre__content reveal">
+          <p class="section__label">Quem criou o DevStart</p>
+          <h2 class="section__title">Feito por quem<br>viveu no seu lugar.</h2>
+          <p class="sobre__destaque">Luiz Antonio — dev desde os 14 anos.</p>
+
+          <p class="sobre__bio">
+            Comecei estudando <strong>desenvolvimento de jogos</strong> — foi assim que as linhas de código
+            viraram minha obsessão. Logo depois me aventurei em <strong>servidores de GTA San Andreas e
+            Minecraft</strong>, colocando código em produção sem saber direito o que estava fazendo.
+          </p>
+          <p class="sobre__bio">
+            Aos 16 tentei um curso de <strong>Fullstack</strong>. Mas sem um caminho claro, sem saber
+            quais tecnologias priorizar, a desmotivação bateu. Sei exatamente como é aquela sensação de
+            estar perdido no oceano de conteúdo que é a programação.
+          </p>
+          <p class="sobre__bio">
+            O DevStart nasceu dessa dor. É o curso que eu <strong>queria ter tido quando comecei</strong>
+            — com direção clara, sequência lógica e foco em resultado real.
+          </p>
+
+          <ol class="timeline">
+            <li class="timeline__item">
+              <span class="timeline__year">14 anos</span>
+              <span class="timeline__desc"><strong>Primeiras linhas</strong> — desenvolvimento de jogos e o início da aventura</span>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__year">15 anos</span>
+              <span class="timeline__desc"><strong>Servidores de jogos</strong> — GTA San Andreas, Minecraft, código em produção real</span>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__year">16 anos</span>
+              <span class="timeline__desc"><strong>Curso Fullstack</strong> — tentativa, frustração por falta de direção</span>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__year">20 anos</span>
+              <span class="timeline__desc"><strong>DevStart</strong> — o caminho que não tive, agora para você</span>
+            </li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PREÇO
+  ══════════════════════════════════════════════ -->
+  <section class="section section--alt" id="preco">
+    <div class="container reveal">
+      <p class="section__label">Investimento</p>
+      <h2 class="section__title section__title--center">Simples. Justo.<br>Sem surpresas.</h2>
+      <p class="section__sub section__sub--center">Acesso completo aos 5 módulos, 56 capítulos e todas as atualizações futuras.</p>
+
+      <div class="preco__wrap">
+        <div class="preco__card">
+
+          <!-- Contador de vagas com desconto -->
+          <div class="preco__urgencia">
+            <span class="preco__urgencia-dot" aria-hidden="true"></span>
+            <span>Oferta para os <strong>100 primeiros</strong> — <span id="vagasRestantes">87</span> vagas restantes</span>
+          </div>
+
+          <span class="preco__badge">🔥 40% de desconto</span>
+          <h3 class="preco__nome">DevStart Completo</h3>
+          <p class="preco__desc">Acesso vitalício a todo o conteúdo</p>
+
+          <div class="preco__valor">
+            <span class="preco__de">R$ 350</span>
+            <span class="preco__por">R$ 210</span>
+          </div>
+          <p class="preco__parcela">ou <strong>12x de R$ 17,50</strong> no cartão</p>
+
+          <!-- Barra de progresso das vagas -->
+          <div class="preco__progresso-wrap" aria-label="Vagas preenchidas">
+            <div class="preco__progresso-bar">
+              <div class="preco__progresso-fill" style="width: 13%"></div>
+            </div>
+            <p class="preco__progresso-label">13 de 100 vagas com desconto preenchidas</p>
+          </div>
+
+          <ul class="preco__lista">
+            <li>5 módulos completos</li>
+            <li>56 capítulos com editor ao vivo</li>
+            <li>Quizzes e desafios práticos</li>
+            <li>Módulo exclusivo de IA com Claude</li>
+            <li>Projetos para o portfólio</li>
+            <li>Atualizações futuras incluídas</li>
+            <li>Acesso vitalício — pague uma vez</li>
+          </ul>
+
+          <a href="login.html" class="btn btn--comprar">🚀 Quero começar agora</a>
+          <p class="preco__garantia">🔒 Compra segura &nbsp;·&nbsp; 7 dias de garantia</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       DEPOIMENTOS
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="depoimentos">
+    <div class="container reveal">
+      <p class="section__label">Quem já começou</p>
+      <h2 class="section__title section__title--center">O que estão dizendo</h2>
+      <p class="section__sub section__sub--center">Primeiros alunos que tiveram acesso antecipado ao DevStart.</p>
+
+      <div class="depoimentos__grid">
+
+        <div class="depoimento">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar">M</div>
+            <div>
+              <p class="depoimento__nome">Marcos Silva</p>
+              <p class="depoimento__curso">Ciências da Computação</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "Finalmente um curso que explica o <strong>porquê</strong> de cada coisa, não só o como. 
+            O módulo de Lógica me fez entender coisas que eu tentava aprender há meses."
+          </p>
+        </div>
+
+        <div class="depoimento">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar depoimento__avatar--b">A</div>
+            <div>
+              <p class="depoimento__nome">Ana Beatriz</p>
+              <p class="depoimento__curso">ADS — 1º semestre</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "Nunca tinha programado na vida. Em 3 semanas já estava construindo minha primeira 
+            página. O editor ao vivo faz toda a diferença — você vê o resultado na hora."
+          </p>
+        </div>
+
+        <div class="depoimento">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar depoimento__avatar--c">R</div>
+            <div>
+              <p class="depoimento__nome">Rafael Costa</p>
+              <p class="depoimento__curso">Ciências da Computação</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "O módulo de IA com Claude me abriu a cabeça. Consigo entregar projetos em metade 
+            do tempo agora. Isso vai ser diferencial em qualquer entrevista."
+          </p>
+        </div>
+
+        <div class="depoimento">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar depoimento__avatar--d">J</div>
+            <div>
+              <p class="depoimento__nome">Julia Mendes</p>
+              <p class="depoimento__curso">ADS — 2º semestre</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "Já tinha tentado outros cursos e sempre travava no meio. Aqui a progressão é tão 
+            natural que você nem percebe o quanto está evoluindo. Recomendo demais."
+          </p>
+        </div>
+
+        <div class="depoimento">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar depoimento__avatar--e">G</div>
+            <div>
+              <p class="depoimento__nome">Gabriel Alves</p>
+              <p class="depoimento__curso">Ciências da Computação</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "O CSS foi sempre meu calcanhar de Aquiles. Depois do módulo 02, finalmente 
+            entendi Flexbox e Grid de verdade. Meu portfólio ficou outro nível."
+          </p>
+        </div>
+
+        <div class="depoimento depoimento--destaque">
+          <div class="depoimento__header">
+            <div class="depoimento__avatar depoimento__avatar--f">L</div>
+            <div>
+              <p class="depoimento__nome">Letícia Rocha</p>
+              <p class="depoimento__curso">ADS — cursando</p>
+            </div>
+            <div class="depoimento__estrelas" aria-label="5 estrelas">★★★★★</div>
+          </div>
+          <p class="depoimento__texto">
+            "Consegui meu <strong>primeiro freela</strong> enquanto ainda estava no módulo 3! 
+            O cliente viu meu portfólio e me contratou para fazer um site. O DevStart 
+            mudou minha trajetória de verdade."
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FAQ
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="faq">
+    <div class="container reveal">
+      <div class="faq__header">
+        <p class="section__label">Dúvidas frequentes</p>
+        <h2 class="section__title section__title--center">Ainda com dúvidas?</h2>
+      </div>
+
+      <div class="faq__list" id="faqList">
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            Preciso ter experiência prévia em programação?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Não. O DevStart começa do absoluto zero com Lógica de Programação. Se você nunca escreveu uma linha de código na vida, esse é o lugar certo. O módulo 00 foi pensado especialmente para quem está começando agora.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            Quanto tempo leva para completar o curso?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Depende do seu ritmo. Com 1 hora por dia, você consegue completar um módulo por mês — o curso completo em 5 meses. Mas o acesso é vitalício: vá no seu tempo, sem pressão.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            O que vou conseguir ao terminar?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Você vai saber construir sites e aplicações web completas, consumir APIs, integrar IA nos seus projetos e ter um portfólio com projetos reais para mostrar em processos seletivos. É a base completa para uma primeira vaga de desenvolvedor.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            Precisa instalar algum programa?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Não. O DevStart roda 100% no navegador. Cada capítulo tem um editor de código embutido onde você escreve e vê o resultado em tempo real. Só precisa de internet e um computador.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            O módulo de IA exige conta na API do Claude?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Para os exercícios conceituais e o editor, não. Para os projetos práticos que fazem chamadas reais à API, sim — você vai precisar criar uma conta na Anthropic e gerar uma API key. O módulo explica tudo passo a passo.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            Tem garantia?
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq__answer" hidden>
+            <p>Sim. Se nos primeiros 7 dias você sentir que o curso não é para você, basta mandar uma mensagem e devolvemos 100% do valor. Sem perguntas, sem burocracia.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       CTA FINAL
+  ══════════════════════════════════════════════ -->
+  <section class="section cta" id="comecar">
+    <div class="container reveal">
+      <p class="section__label">Pronto para começar?</p>
+      <h2 class="section__title section__title--center">
+        O melhor momento para<br>começar era ontem.<br>O segundo melhor é agora.
+      </h2>
+      <p class="cta__sub">Cada dia que passa é um dia a menos na sua jornada. A primeira linha de código que você escrever no DevStart pode mudar os próximos anos da sua vida.</p>
+      <a href="#preco" class="btn btn--primary btn--lg">🎯 Começar minha jornada</a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer class="footer">
+    <a href="index.html" class="footer__logo">DevStart <span>— Por Luiz Antonio</span></a>
+    <p class="footer__copy">© 2026 DevStart. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="assets/js/landing.js"></script>
+
+</body>
+</html>

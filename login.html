@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevStart — Entrar</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body class="auth-page">
+
+  <!-- Grade decorativa de fundo -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- Botão de tema -->
+  <div class="auth-theme-toggle">
+    <button class="theme-toggle" id="themeBtn" aria-label="Alternar tema">🌙</button>
+  </div>
+
+  <!-- Link de voltar -->
+  <a href="index.html" class="auth-back">← Voltar</a>
+
+  <!-- Card principal -->
+  <div class="card auth-card anim-fade-up">
+
+    <a href="index.html" class="auth-logo">Dev<span>Start</span></a>
+    <p class="auth-subtitle">Acesse sua conta para continuar</p>
+
+    <!-- Tabs -->
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab auth-tab--active" id="tab-login"
+              role="tab" aria-selected="true" aria-controls="form-login">
+        Entrar
+      </button>
+      <button class="auth-tab" id="tab-register"
+              role="tab" aria-selected="false" aria-controls="form-register">
+        Cadastrar
+      </button>
+    </div>
+
+    <!-- ── FORMULÁRIO DE LOGIN ── -->
+    <form class="auth-form auth-form--active" id="form-login"
+          role="tabpanel" aria-labelledby="tab-login"
+          onsubmit="handleLogin(event)">
+
+      <div class="alert" id="login-alert" role="alert" aria-live="polite"></div>
+
+      <div class="form-field">
+        <label class="form-label" for="login-email">E-mail</label>
+        <input class="input" type="email" id="login-email"
+               name="email" placeholder="seu@email.com"
+               required autocomplete="email">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="login-pw">Senha</label>
+        <input class="input" type="password" id="login-pw"
+               name="password" placeholder="••••••••"
+               required autocomplete="current-password">
+      </div>
+
+      <div class="lock-countdown" id="lock-countdown" aria-live="polite"></div>
+
+      <button class="btn btn--primary btn--full" id="login-btn" type="submit">
+        Entrar →
+      </button>
+
+    </form>
+
+    <!-- ── FORMULÁRIO DE CADASTRO ── -->
+    <form class="auth-form" id="form-register"
+          role="tabpanel" aria-labelledby="tab-register" hidden
+          onsubmit="handleRegister(event)">
+
+      <div class="alert" id="reg-alert" role="alert" aria-live="polite"></div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label" for="reg-username">Usuário</label>
+          <input class="input" type="text" id="reg-username"
+                 name="username" placeholder="seu_nick"
+                 required pattern="[a-zA-Z0-9_]{3,20}"
+                 title="3 a 20 caracteres: letras, números e _">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="reg-course">Curso</label>
+          <select class="input" id="reg-course" name="course" required>
+            <option value="">Selecione</option>
+            <option value="ADS">ADS</option>
+            <option value="CC">Ciências da Computação</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="reg-email">E-mail</label>
+        <input class="input" type="email" id="reg-email"
+               name="email" placeholder="seu@email.com" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="reg-pw">Senha</label>
+        <input class="input" type="password" id="reg-pw"
+               name="password" placeholder="Mínimo 8 caracteres" required>
+        <div class="pw-strength-bar" aria-hidden="true">
+          <div class="pw-strength-fill" id="pw-strength-fill"></div>
+        </div>
+        <p class="pw-strength-label" id="pw-strength-label" aria-live="polite">—</p>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="reg-invite">Código de Convite</label>
+        <input class="input input--mono" type="text" id="reg-invite"
+               name="invite" placeholder="Ex: A1B2C3D4" required>
+      </div>
+
+      <button class="btn btn--primary btn--full" id="reg-btn" type="submit">
+        Criar conta →
+      </button>
+
+    </form>
+
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="assets/js/firebase.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script src="assets/js/login.js"></script>
+
+</body>
+</html>

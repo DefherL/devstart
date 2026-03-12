@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevStart — Plataforma</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body class="app-page">
+
+<!-- ════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav class="app-navbar">
+
+  <!-- Botão sidebar mobile -->
+  <button class="sidebar-toggle" onclick="toggleMobileSidebar()" title="Menu">☰</button>
+
+  <!-- Logo -->
+  <a class="app-navbar-logo" onclick="goToDashboard()">
+    Dev<span>Start</span>
+  </a>
+
+  <!-- Progresso geral -->
+  <div class="navbar-progress-wrap">
+    <span class="navbar-progress-label">Progresso</span>
+    <div class="navbar-progress-bar">
+      <div class="navbar-progress-fill" id="navbar-progress-fill" style="width:0%"></div>
+    </div>
+    <span class="navbar-progress-pct" id="navbar-progress-pct">0%</span>
+  </div>
+
+  <!-- Usuário + ações -->
+  <div class="navbar-right">
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">🌙</button>
+
+    <!-- Perfil com dropdown -->
+    <div class="navbar-user profile-dropdown-wrap" id="profile-dropdown-wrap">
+      <div class="navbar-user" onclick="toggleProfileDropdown()" style="cursor:pointer">
+        <div class="navbar-avatar" id="navbar-avatar">?</div>
+        <span class="hide-mobile" id="navbar-username">—</span>
+        <span style="font-size:0.6rem;color:var(--text3);margin-left:2px">▼</span>
+      </div>
+
+      <!-- Dropdown menu -->
+      <div class="profile-dropdown" id="profile-dropdown">
+        <div class="profile-dropdown-header">
+          <div class="profile-dropdown-avatar" id="pd-avatar">?</div>
+          <div>
+            <div class="profile-dropdown-name" id="pd-name">—</div>
+            <div class="profile-dropdown-email" id="pd-email">—</div>
+          </div>
+        </div>
+        <div class="profile-dropdown-divider"></div>
+        <button class="profile-dropdown-item" onclick="goToDashboard();closeProfileDropdown()">
+          🏠 Início
+        </button>
+        <div class="profile-dropdown-divider"></div>
+        <div id="pd-admin-item" style="display:none">
+          <button class="profile-dropdown-item profile-dropdown-admin" onclick="window.location.href='admin.html'">
+            ⚙️ Painel Admin
+          </button>
+          <div class="profile-dropdown-divider"></div>
+        </div>
+        <button class="profile-dropdown-item profile-dropdown-logout" onclick="doLogout()">
+          🚪 Sair
+        </button>
+      </div>
+    </div>
+  </div>
+
+</nav>
+
+<!-- ════════════════════════════════════════════
+     CORPO (sidebar + main)
+════════════════════════════════════════════ -->
+<div class="app-body">
+
+  <!-- ── SIDEBAR ── -->
+  <!-- Botão toggle sidebar -->
+  <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Mostrar/ocultar menu">
+    <span class="toggle-icon">◀</span>
+  </button>
+
+  <!-- Overlay mobile -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+  <aside class="app-sidebar" id="app-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Módulos</div>
+      <div id="sidebar-modules">
+        <!-- Renderizado por app.js -->
+        <div style="padding:1rem 1.25rem;font-size:.8rem;color:var(--text3)">
+          Carregando...
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="app-main">
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+
+      <div class="dashboard-welcome">
+        <h1>Bem-vindo ao DevStart 👋</h1>
+        <p>Escolha um módulo para continuar sua trilha de aprendizado.</p>
+      </div>
+
+      <!-- Cards dos módulos -->
+      <div class="modules-grid" id="modules-grid">
+        <!-- Renderizado por app.js -->
+        <div style="color:var(--text3);font-size:.875rem;padding:1rem">
+          Carregando módulos...
+        </div>
+      </div>
+
+    </div>
+    <!-- /dashboard -->
+
+    <!-- CAPÍTULO -->
+    <div class="chapter-view" id="chapter-view">
+      <!-- Renderizado por app.js ao abrir um capítulo -->
+    </div>
+
+  </main>
+  <!-- /main -->
+
+</div>
+<!-- /app-body -->
+
+<!-- Scripts -->
+<!-- CodeMirror — editor com syntax highlight e números de linha -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+<script>
+  /* Theme toggle — inline para rodar antes do módulo ES */
+  function toggleTheme() {
+    const html    = document.documentElement;
+    const isLight = html.getAttribute('data-theme') === 'light';
+    const next    = isLight ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = next === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('devstart-theme', next);
+  }
+  const saved = localStorage.getItem('devstart-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').textContent = saved === 'dark' ? '🌙' : '☀️';
+</script>
+
+  <!-- Marcador de texto -->
+  <div class="highlighter-toolbar" id="highlighter-toolbar" style="display:none">
+    <div class="highlighter-colors" id="highlighter-colors">
+      <div class="color-option selected" data-color="yellow" onclick="selectColor('yellow')">
+        <div class="color-dot" style="background:#ffeb00"></div> Amarelo
+      </div>
+      <div class="color-option" data-color="green" onclick="selectColor('green')">
+        <div class="color-dot" style="background:#00e5a0"></div> Verde
+      </div>
+      <div class="color-option" data-color="blue" onclick="selectColor('blue')">
+        <div class="color-dot" style="background:#60a5fa"></div> Azul
+      </div>
+      <div class="color-option" data-color="pink" onclick="selectColor('pink')">
+        <div class="color-dot" style="background:#f472b6"></div> Rosa
+      </div>
+      <div class="color-option" data-color="orange" onclick="selectColor('orange')">
+        <div class="color-dot" style="background:#fb923c"></div> Laranja
+      </div>
+      <div class="eraser-btn" onclick="selectColor('erase')">
+        <span>🧹</span> Apagar marcações
+      </div>
+      <div class="eraser-btn" onclick="stopHighlighter()" style="border-color:var(--accent2);color:var(--accent2)">
+        <span>⏹️</span> Parar de marcar
+      </div>
+    </div>
+    <button class="highlighter-fab" id="highlighter-fab" onclick="toggleHighlighter()" title="Marcador de texto">
+      🖊️
+    </button>
+  </div>
+
+</body>
+</html>

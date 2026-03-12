@@ -1,0 +1,263 @@
+/* ============================================================
+   DevStart — assets/css/thankyou.css
+   Estilos da página de agradecimento (thankyou.html)
+   Depende de: base.css
+   ============================================================ */
+
+.ty-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 3rem;
+  gap: 2rem;
+}
+
+/* ── Card principal ─────────────────────────────────────── */
+.ty-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 28px;
+  padding: 3rem;
+  width: min(620px, 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(0,229,160,.08);
+}
+.ty-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--clr-accent), transparent);
+}
+
+/* ── Check animado ──────────────────────────────────────── */
+.ty-check {
+  width: 72px; height: 72px;
+  color: var(--clr-accent);
+  margin: 0 auto 1.5rem;
+  animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both;
+}
+.ty-check svg { width: 100%; height: 100%; }
+
+/* ── Textos ─────────────────────────────────────────────── */
+.ty-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--clr-accent);
+  margin-bottom: .75rem;
+}
+
+.ty-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  margin-bottom: 1rem;
+}
+.ty-title span { color: var(--clr-accent); }
+
+.ty-sub {
+  color: var(--clr-muted);
+  line-height: 1.75;
+  max-width: 440px;
+  margin: 0 auto 2.5rem;
+}
+.ty-sub strong { color: var(--clr-text); }
+
+/* ── Passos ─────────────────────────────────────────────── */
+.ty-steps {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+.ty-steps h2 {
+  font-family: var(--ff-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clr-muted);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.ty-step {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--clr-border);
+}
+.ty-step:last-child { border-bottom: none; }
+
+.ty-step__num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(0,229,160,.12);
+  color: var(--clr-accent);
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-size: .85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: .1rem;
+}
+
+.ty-step h3 {
+  font-size: .95rem;
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+.ty-step p {
+  font-size: .85rem;
+  color: var(--clr-muted);
+  line-height: 1.6;
+}
+
+/* ── Botão ──────────────────────────────────────────────── */
+.ty-btn {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* ── Mensagem do Luiz ───────────────────────────────────── */
+.ty-mensagem {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  background: rgba(0,229,160,.04);
+  border: 1px solid rgba(0,229,160,.15);
+  border-radius: var(--r-lg);
+  padding: 1.25rem;
+  text-align: left;
+}
+
+.ty-mensagem__foto {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid rgba(0,229,160,.3);
+  flex-shrink: 0;
+}
+
+.ty-mensagem__autor {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+  margin-bottom: .4rem;
+}
+.ty-mensagem p:last-child {
+  font-size: .875rem;
+  color: var(--clr-muted);
+  line-height: 1.7;
+}
+
+/* ── Extras ─────────────────────────────────────────────── */
+.ty-extras {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: min(620px, 100%);
+}
+
+.ty-extra {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.ty-extra__icon { font-size: 1.5rem; }
+
+.ty-extra h4 {
+  font-family: var(--ff-display);
+  font-size: .85rem;
+  font-weight: 700;
+}
+.ty-extra p {
+  font-size: .78rem;
+  color: var(--clr-muted);
+  line-height: 1.6;
+}
+
+/* ── Animações ──────────────────────────────────────────── */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.reveal-in {
+  animation: fadeUp .6s ease both;
+}
+
+/* ── Confetes ───────────────────────────────────────────── */
+.confetti-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem 2.5rem;
+  border-top: 1px solid var(--clr-border);
+  width: 100%;
+}
+.footer__logo {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--clr-accent);
+  text-decoration: none;
+}
+.footer__logo span {
+  color: var(--clr-muted);
+  font-weight: 400;
+  font-size: .85rem;
+  margin-left: .5rem;
+}
+.footer__copy {
+  font-size: .8rem;
+  color: var(--clr-muted);
+}
+
+/* ── Responsivo ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ty-card { padding: 2rem 1.25rem; }
+  .ty-extras { grid-template-columns: 1fr; }
+  .ty-mensagem { flex-direction: column; align-items: center; text-align: center; }
+}
