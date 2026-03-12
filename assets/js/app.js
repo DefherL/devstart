@@ -55,6 +55,10 @@ onAuthStateChanged(auth, async (user) => {
   // Tentar backend em segundo plano (não bloqueia se offline)
   apiFetch('/progress/me').then(p => { if (p) { userProgress = p; updateNavbarProgress(); } }).catch(() => {});
 
+  // Atualizar lastActiveAt no Firestore
+  const { setDoc: fsSet, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+  fsSet(doc(db, 'users', user.uid), { lastActiveAt: serverTimestamp() }, { merge: true }).catch(() => {});
+
   renderNavbar(userData, isAdmin);
   renderSidebar();
   renderDashboard();
@@ -91,11 +95,13 @@ window.doLogout = async () => {
 
 // ── Heartbeat ─────────────────────────────────────────────────────────────
 function startHeartbeat() {
-  heartbeatTimer = setInterval(() => {
-    apiFetch('/progress/heartbeat', {
-      method: 'POST',
-      body: JSON.stringify({ moduleId: currentModule, chapterId: currentChapter }),
-    });
+  // Atualiza lastActiveAt no Firestore a cada 2 minutos
+  heartbeatTimer = setInterval(async () => {
+    if (!currentUser) return;
+    try {
+      const { setDoc: fsSet, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      await fsSet(doc(db, 'users', currentUser.uid), { lastActiveAt: serverTimestamp() }, { merge: true });
+    } catch {}
   }, 2 * 60 * 1000);
 }
 
