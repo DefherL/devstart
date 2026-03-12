@@ -7,12 +7,24 @@ import { auth, API_URL }                from './firebase.js';
 import { onAuthStateChanged, signOut }  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, getDoc }    from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 const db = getFirestore();
-import Security                         from './security.js';
-import { LOGICA }                       from './content-logica.js';
-import { HTML }                         from './content-html.js';
-import { CSS }                          from './content-css.js';
-import { JS }                           from './content-js.js';
-import { IA }                           from './content-ia.js';
+import Security from './security.js';
+
+// ── Lazy loading ───────────────────────────────────────────────────────────
+const CONTENT_CACHE = {};
+const CONTENT_MAP = {
+  logica: () => import('./content-logica.js').then(m => m.LOGICA),
+  html:   () => import('./content-html.js').then(m => m.HTML),
+  css:    () => import('./content-css.js').then(m => m.CSS),
+  js:     () => import('./content-js.js').then(m => m.JS),
+  ai:     () => import('./content-ia.js').then(m => m.IA),
+};
+
+async function getChapterContent(modId, chapterId) {
+  if (!CONTENT_CACHE[modId]) {
+    CONTENT_CACHE[modId] = await CONTENT_MAP[modId]();
+  }
+  return CONTENT_CACHE[modId][chapterId];
+}
 
 const API = API_URL;
 
@@ -26,45 +38,48 @@ let heartbeatTimer = null;
 
 // ── Auth Guard ─────────────────────────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'index.html'; return; }
+  if (!user) { window.location.href = 'login.html'; return; }
 
   currentUser = user;
   userToken   = await user.getIdToken();
 
-  // Carregar perfil + progresso
-  const [me, progress] = await Promise.all([
-    apiFetch('/auth/me'),
-    apiFetch('/progress/me'),
-  ]);
-
-  userProgress = progress || {};
-
-  // Buscar role direto no Firestore
+  // Buscar perfil do Firestore diretamente
   const userDoc  = await getDoc(doc(db, 'users', user.uid)).catch(() => null);
   const userData = userDoc?.data() || {};
   const isAdmin  = userData.role === 'admin';
 
-  renderNavbar(me, isAdmin);
+  // Buscar progresso do Firestore
+  const progressDoc = await getDoc(doc(db, 'progress', user.uid)).catch(() => null);
+  userProgress = progressDoc?.exists() ? progressDoc.data() : {};
+
+  // Tentar backend em segundo plano (não bloqueia se offline)
+  apiFetch('/progress/me').then(p => { if (p) { userProgress = p; updateNavbarProgress(); } }).catch(() => {});
+
+  renderNavbar(userData, isAdmin);
   renderSidebar();
   renderDashboard();
   updateNavbarProgress();
   startHeartbeat();
-  // DEV: detectDevTools: false em desenvolvimento, mude para true em produção
   Security.init({ detectDevTools: false, blockCopy: false, blockMenu: false });
 });
 
 // ── API helper ─────────────────────────────────────────────────────────────
 async function apiFetch(path, options = {}) {
-  const res = await fetch(API + path, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization:  'Bearer ' + userToken,
-      ...(options.headers || {}),
-    },
-  });
-  if (res.status === 401) { window.location.href = 'index.html'; return null; }
-  return res.json().catch(() => null);
+  try {
+    const res = await fetch(API + path, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:  'Bearer ' + userToken,
+        ...(options.headers || {}),
+      },
+    });
+    if (res.status === 401) { window.location.href = 'login.html'; return null; }
+    return res.json().catch(() => null);
+  } catch {
+    // Backend offline — ignora silenciosamente
+    return null;
+  }
 }
 
 // ── Logout ─────────────────────────────────────────────────────────────────
@@ -468,7 +483,7 @@ window.openModule = function (modId) {
   openChapter(modId, next.id);
 };
 
-window.openChapter = function (modId, chapterId) {
+window.openChapter = async function (modId, chapterId) {
   // Mostrar marcador de texto
   const toolbar = document.getElementById('highlighter-toolbar');
   if (toolbar) toolbar.style.display = 'flex';
@@ -480,7 +495,13 @@ window.openChapter = function (modId, chapterId) {
   const sbBtn = document.getElementById('sbch-' + chapterId);
   if (sbBtn) sbBtn.classList.add('active');
 
-  const data = CHAPTER_CONTENT[chapterId];
+  // Loading enquanto busca conteúdo
+  const view = document.getElementById('chapter-view');
+  view.classList.add('active');
+  document.getElementById('dashboard').style.display = 'none';
+  view.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text3);font-size:1.1rem">⏳ Carregando...</div>';
+
+  const data = await getChapterContent(modId, chapterId);
   if (!data) { renderComingSoon(modId, chapterId); return; }
   renderChapter(modId, chapterId, data);
 
@@ -624,6 +645,11 @@ function renderChapter(modId, chapterId, data) {
 
   view.innerHTML = html;
 
+  // Inicializar quiz diretamente (sem MutationObserver)
+  if (data?.quiz?.length) {
+    initQuiz(data.quiz, chapterId);
+  }
+
   // Inicializar CodeMirror com syntax highlight
   setTimeout(() => {
     initCodeMirror();
@@ -746,12 +772,12 @@ function renderQuizQuestion() {
 
   document.getElementById('quiz-counter').textContent = `${current + 1} / ${questions.length}`;
   document.getElementById('quiz-body').innerHTML = `
-    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-question">${escapeHtml(q.q)}</div>
     <div class="quiz-options">
       ${q.opts.map((opt, i) => `
         <label class="quiz-option" id="qopt-${i}" onclick="selectOption(${i})">
           <input type="radio" name="qopt" value="${i}"/>
-          <span>${opt}</span>
+          <span>${escapeHtml(opt)}</span>
         </label>`).join('')}
     </div>
     <div class="quiz-feedback" id="quiz-feedback"></div>
@@ -789,9 +815,9 @@ window.confirmAnswer = function () {
 
   const fb = document.getElementById('quiz-feedback');
   fb.className = `quiz-feedback show ${correct ? 'correct' : 'wrong'}`;
-  fb.textContent = correct
-    ? `✅ Correto! ${q.explanation}`
-    : `❌ Incorreto. ${q.explanation}`;
+  fb.innerHTML = correct
+    ? `✅ Correto! ${escapeHtml(q.explanation)}`
+    : `❌ Incorreto. ${escapeHtml(q.explanation)}`;
 
   const isLast = current === questions.length - 1;
   document.querySelector('.quiz-nav').innerHTML = `
@@ -821,16 +847,15 @@ window.finishQuiz = async function () {
       ${pct < 70 ? `<button class="btn btn-secondary btn-sm" onclick="retryQuiz()">↩ Tentar novamente</button>` : ''}
     </div>`;
 
-  // Salva no backend
-  await apiFetch('/progress/quiz', {
-    method: 'POST',
-    body: JSON.stringify({
-      moduleId: currentModule,
-      quizId:   chapterId + '-quiz',
-      score, total: questions.length,
-      answers: answers.map(a => a.selected),
-    }),
-  });
+  // Salva quiz no Firestore diretamente
+  try {
+    const { doc: fsDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const ref = fsDoc(db, 'progress', currentUser.uid);
+    await setDoc(ref, {
+      [currentModule]: { quizScores: { [chapterId]: { score, total: questions.length } } }
+    }, { merge: true });
+  } catch(e) { /* offline */ }
+  apiFetch('/progress/quiz', { method:'POST', body: JSON.stringify({ moduleId: currentModule, quizId: chapterId+'-quiz', score, total: questions.length }) }).catch(() => {});
 };
 
 window.retryQuiz = function () {
@@ -841,20 +866,28 @@ window.retryQuiz = function () {
 // ══════════════════════════════════════════════════════════════════════════
 //  CHALLENGE
 // ══════════════════════════════════════════════════════════════════════════
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 function renderChallengeHTML(challenge, chapterId, isDone) {
   if (!challenge) return '';
   const taskIds = challenge.tasks.map((_, i) => `task-${chapterId}-${i}`);
   return `
     <div class="challenge-box">
       <div class="challenge-label">🏆 Desafio do capítulo</div>
-      <h3>${challenge.title}</h3>
-      <p>${challenge.desc}</p>
+      <h3>${escapeHtml(challenge.title)}</h3>
+      <p>${escapeHtml(challenge.desc)}</p>
       <ul class="challenge-tasks">
         ${challenge.tasks.map((t, i) => `
           <li class="challenge-task">
             <div class="task-checkbox" id="${taskIds[i]}"
                  onclick="toggleTask('${taskIds[i]}','${chapterId}')"></div>
-            <span>${t}</span>
+            <span>${escapeHtml(t)}</span>
           </li>`).join('')}
       </ul>
       <button class="btn-complete" id="btn-complete-${chapterId}"
@@ -878,10 +911,10 @@ window.toggleTask = function (taskId, chapterId) {
   localStorage.setItem(key, JSON.stringify(next));
 
   // Verifica se todas as tasks estão marcadas
-  const data     = CHAPTER_CONTENT[chapterId];
-  const allTasks = data?.challenge?.tasks.map((_, i) => `task-${chapterId}-${i}`) || [];
-  const allDone  = allTasks.every(id => document.getElementById(id)?.classList.contains('checked'));
-  const btn      = document.getElementById('btn-complete-' + chapterId);
+  // Usar checkboxes visíveis para verificar se todos estão marcados
+  const allCheckboxes = document.querySelectorAll(`[id^="task-${chapterId}-"]`);
+  const allDone = allCheckboxes.length > 0 && [...allCheckboxes].every(el => el.classList.contains('checked'));
+  const btn = document.getElementById('btn-complete-' + chapterId);
   if (btn) btn.disabled = !allDone;
 };
 
@@ -891,19 +924,23 @@ function restoreTasks(chapterId) {
     const el = document.getElementById(id);
     if (el) { el.classList.add('checked'); el.textContent = '✓'; }
   });
-  const data     = CHAPTER_CONTENT[chapterId];
-  const allTasks = data?.challenge?.tasks.map((_, i) => `task-${chapterId}-${i}`) || [];
-  const allDone  = allTasks.every(id => document.getElementById(id)?.classList.contains('checked'));
-  const btn      = document.getElementById('btn-complete-' + chapterId);
+  const allCheckboxes = document.querySelectorAll(`[id^="task-${chapterId}-"]`);
+  const allDone = allCheckboxes.length > 0 && [...allCheckboxes].every(el => el.classList.contains('checked'));
+  const btn = document.getElementById('btn-complete-' + chapterId);
   if (btn && allDone) btn.disabled = false;
 }
 
 window.completeChapter = async function (modId, chapterId) {
-  // Salva no backend
-  await apiFetch('/progress/chapter', {
-    method: 'POST',
-    body: JSON.stringify({ moduleId: modId, chapterId }),
-  });
+  // Salva no Firestore diretamente
+  try {
+    const { doc: fsDoc, setDoc, getDoc: fsGet, updateDoc, arrayUnion } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const ref = fsDoc(db, 'progress', currentUser.uid);
+    await setDoc(ref, {
+      [modId]: { chaptersCompleted: arrayUnion(chapterId) }
+    }, { merge: true });
+  } catch(e) { /* Firestore offline */ }
+  // Tenta backend em segundo plano
+  apiFetch('/progress/chapter', { method:'POST', body: JSON.stringify({ moduleId: modId, chapterId }) }).catch(() => {});
 
   // Atualiza estado local
   if (!userProgress[modId]) userProgress[modId] = { chaptersCompleted:[], quizScores:{} };
@@ -930,15 +967,8 @@ window.completeChapter = async function (modId, chapterId) {
 //  INICIALIZAR QUIZ APÓS RENDER DO CAPÍTULO
 //  (chamado via MutationObserver, pois o quiz-wrap é injetado dinamicamente)
 // ══════════════════════════════════════════════════════════════════════════
-const observer = new MutationObserver(() => {
-  const wrap = document.getElementById('quiz-wrap');
-  if (wrap && !wrap.dataset.initialized && currentChapter) {
-    wrap.dataset.initialized = '1';
-    const data = CHAPTER_CONTENT[currentChapter];
-    if (data?.quiz) initQuiz(data.quiz, currentChapter);
-  }
-});
-observer.observe(document.getElementById('chapter-view'), { childList: true, subtree: true });
+// Quiz é inicializado diretamente após renderChapter — sem MutationObserver
+// (MutationObserver removido pois causava race condition com lazy loading)
 
 // ══════════════════════════════════════════════════════════════════════════
 //  SIDEBAR TOGGLE

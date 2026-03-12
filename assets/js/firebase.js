@@ -28,6 +28,6 @@ const db   = getFirestore(app);
 
 // URL base da API backend
 // Em produção, troque pelo endereço do seu servidor (ex: https://api.devstart.com.br)
-export const API_URL = 'http://localhost:3001/api';
+export const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '';
 
 export { app, auth, db };
